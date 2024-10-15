@@ -1,13 +1,21 @@
-const getAllContacts = (req, res, next) => {
+const contacts = require("../db/contacts");
+
+const getAllContacts = async (req, res, next) => {
   // Database query to fetch all contacts
-  console.log("List contacts...");
-  res.send("List contacts...");
+  const result = await contacts.listContacts();
+
+  res.json(result);
 };
 
-const getContactById = (req, res, next) => {
+const getContactById = async (req, res, next) => {
   // Database query to fetch contact by ID
-  console.log("Get contact by ID...");
-  res.send("Get contact...");
+  const result = await contacts.getById(req.params.contactId);
+
+  if (!result) {
+    return res.status(404).json({ message: "Contact not found" });
+  }
+
+  res.json(result);
 };
 
 const createContact = (req, res, next) => {
