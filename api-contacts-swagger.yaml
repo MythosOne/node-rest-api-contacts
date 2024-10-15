@@ -1,0 +1,364 @@
+openapi: 3.0.0
+info:
+  title: Contacts API
+  description: API for managing contacts
+  version: 1.0.0
+servers:
+  - url: https://contacts-reader-backend-7k84.onrender.com
+
+paths:
+  /api/contacts:
+    get:
+      tags:
+        - Contacts
+      summary: Get list of contacts
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Contact"
+
+    post:
+      tags:
+        - Contacts
+      summary: Create a new contact
+      security:
+        - BearerAuth: []
+      requestBody:
+          description: New Contact Information
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ContactInput"
+      responses:
+            "201":
+              description: Contact created successfully
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/Contact"
+            "400":
+              description: Invalid Input
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: "missing required name field"
+
+  /api/contacts/{contactId}:
+    get:
+      tags:
+        - Contacts
+      summary: Get contact by ID
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: contactId
+          in: path
+          required: true
+          description:  Unique identifier of the contact
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Contact"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Not found"
+
+    put:
+      tags:
+        - Contacts
+      summary: Update contact by ID
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: contactId
+          in: path
+          required: true
+          description:  Unique identifier of the contact
+          schema:
+            type: string
+      responses:
+          "200":
+            description: Successful response
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Contact"
+          "400":
+            description: Invalid Input
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: "missing fields"
+          "404":
+            description: Not Found
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: "Not found"
+          
+    delete:
+      tags:
+        - Contacts
+      summary: Delete contact by ID
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: contactId
+          in: path
+          required: true
+          description:  Unique identifier of the contact
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Contact"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Not found"
+
+  /user/register:
+    post:
+      tags:
+        - User
+      summary: Create user
+      requestBody:
+        description: User credentials
+        required: true
+        content:
+          application/json:
+            schema: 
+              $ref: "#/components/schemas/UserRegister"
+      responses:
+        "201":
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserRegister"
+        "400":
+          description: Invalid Input
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Missing required fields"
+        "409":
+          description: User already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "User already exists"
+  
+  /user/login:
+    post:
+      tags:
+        - User
+      summary: Login user
+      security:
+        - BearerAuth: []
+      requestBody:
+        description: ""
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserLoginRequest"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserLoginResponse"
+        "400":
+          description: Missing required field email
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Missing required field email"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Email or password is wrong"
+
+  /user/logout:
+    post:
+      tags:
+        - User
+      summary: Logout user
+      security:
+        - BearerAuth: []
+      responses:
+        "204":
+          description: User logged out successfully
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Not authorized"
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Contact:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Unique contact ID
+        name:
+          type: string
+          description: Contact name
+        email:
+          type: string
+          description: Contact email
+        phone:
+          type: string
+          description: Contact phone
+        owner:
+          type: object
+          properties:
+            _id:
+              type: string
+              description: User ID
+
+      required:
+        - name
+        - email
+        - phone
+
+    ContactInput:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Contact name
+        email:
+          type: string
+          description: Contact email
+        phone:
+          type: string
+          description: Contact phone
+          
+      required:
+        - name
+        - email
+        - phone
+
+    UserRegister:
+      type: object
+      properties:
+        username:
+          type: string
+          description: User username
+        email:
+          type: string
+          description: User email
+        password:
+          type: string
+          description: User password
+          
+      required:
+        - username
+        - email
+        - password
+
+    UserLoginRequest:
+      type: object
+      properties:
+        email: 
+          type: string
+          description: User email
+        password: 
+          type: string
+          description:  User password
+
+      required:
+        - email
+        - password
+
+    UserLoginResponse: 
+      type: object
+      properties:
+        token:
+          type: string
+          description: JWT token for authenticated user
+        user:
+          type: object
+          properties:
+            email:
+              type: string
+              description: User email
+
+      required:
+        - token
