@@ -87,46 +87,46 @@ paths:
                     type: string
                     example: "Not found"
 
-    put:
-      tags:
-        - Contacts
-      summary: Update contact by ID
-      security:
-        - BearerAuth: []
-      parameters:
-        - name: contactId
-          in: path
-          required: true
-          description:  Unique identifier of the contact
-          schema:
-            type: string
-      responses:
-          "200":
-            description: Successful response
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Contact"
-          "400":
-            description: Invalid Input
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    message:
-                      type: string
-                      example: "missing fields"
-          "404":
-            description: Not Found
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    message:
-                      type: string
-                      example: "Not found"
+    # put:
+    #   tags:
+    #     - Contacts
+    #   summary: Update contact by ID
+    #   security:
+    #     - BearerAuth: []
+    #   parameters:
+    #     - name: contactId
+    #       in: path
+    #       required: true
+    #       description:  Unique identifier of the contact
+    #       schema:
+    #         type: string
+    #   responses:
+    #       "200":
+    #         description: Successful response
+    #         content:
+    #           application/json:
+    #             schema:
+    #               $ref: "#/components/schemas/Contact"
+    #       "400":
+    #         description: Invalid Input
+    #         content:
+    #           application/json:
+    #             schema:
+    #               type: object
+    #               properties:
+    #                 message:
+    #                   type: string
+    #                   example: "missing fields"
+    #       "404":
+    #         description: Not Found
+    #         content:
+    #           application/json:
+    #             schema:
+    #               type: object
+    #               properties:
+    #                 message:
+    #                   type: string
+    #                   example: "Not found"
           
     delete:
       tags:
@@ -306,9 +306,9 @@ components:
         email:
           type: string
           description: Contact email
-        phone:
-          type: string
-          description: Contact phone
+        # phone:
+        #   type: string
+        #   description: Contact phone
           
       required:
         - name

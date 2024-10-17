@@ -57,25 +57,25 @@ const addContact = async (body) => {
   return newContact;
 };
 
-const updateContact = async (contactId, body) => {
-  const contacts = await readFile();
-  const index = contacts.findIndex((contact) => contact.id === contactId);
+// const updateContact = async (contactId, body) => {
+//   const contacts = await readFile();
+//   const index = contacts.findIndex((contact) => contact.id === contactId);
 
-  if (index === -1) {
-    return null;
-  }
+//   if (index === -1) {
+//     return null;
+//   }
 
-  contacts[index] = { ...contacts[index], ...body };
+//   contacts[index] = { ...contacts[index], ...body };
 
-  await writeFile(contacts);
+//   await writeFile(contacts);
 
-  return contacts[index];
-};
+//   return contacts[index];
+// };
 
 module.exports = {
   listContacts,
   getContactById,
   addContact,
-  updateContact,
+  // updateContact,
   removeContact,
 };
