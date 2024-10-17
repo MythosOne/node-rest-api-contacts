@@ -4,36 +4,45 @@ const getAllContacts = async (req, res, next) => {
   // Database query to fetch all contacts
   const result = await contacts.listContacts();
 
-  res.json(result);
+  res.status(200).json(result);
 };
 
 const getContactById = async (req, res, next) => {
   // Database query to fetch contact by ID
-  const result = await contacts.getById(req.params.contactId);
+  const result = await contacts.getContactById(req.params.contactId);
 
   if (!result) {
     return res.status(404).json({ message: "Contact not found" });
   }
 
-  res.json(result);
+  res.status(200).json(result);
 };
 
-const createContact = (req, res, next) => {
+const deleteContact = async (req, res, next) => {
+    // Database query to delete contact
+    const result = await contacts.removeContact(req.params.contactId);
+  
+    if (!result) {
+      return res.status(404).json({ message: "Contact not found" });
+    }
+  
+    res.status(200).json(result);
+  };
+
+const createContact = async (req, res, next) => {
   // Database query to create contact
-  console.log("Create contact...");
-  res.send("Create contact...");
+  const result = await contacts.addContact(req.body);
+
+  res.status(201).json(result);
 };
 
-const updateContact = (req, res, next) => {
+const updateContact = async (req, res, next) => {
   // Database query to update contact
-  console.log("Update contact...");
-  res.send("Update contact...");
-};
+  const { contactId } = req.params;
 
-const deleteContact = (req, res, next) => {
-  // Database query to delete contact
-  console.log("Delete contact...");
-  res.send("Delete contact...");
+  const result = await contacts.updateContact(contactId, req.body);
+
+  res.send(result);
 };
 
 module.exports = {

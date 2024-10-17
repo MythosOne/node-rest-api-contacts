@@ -6,5 +6,6 @@ const app = express();
 
 app.use("/api/contacts", contactsRouter);
 app.use(morgan("dev"));
+app.use(express.json());
 
 module.exports = app;
