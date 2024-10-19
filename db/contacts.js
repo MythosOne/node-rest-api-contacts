@@ -16,16 +16,17 @@ async function writeFile(contacts) {
   return data;
 }
 
+
 async function listContacts() {
   const listContacts = await readFile();
 
   return listContacts;
 }
 
-const getContactById = async (contactId) => {
+const getById = async (contactId) => {
   const contacts = await readFile();
   const contact = contacts.find((contact) => contact.id === contactId);
-
+  
   return contact;
 };
 
@@ -74,7 +75,7 @@ const addContact = async (body) => {
 
 module.exports = {
   listContacts,
-  getContactById,
+  getById,
   addContact,
   // updateContact,
   removeContact,

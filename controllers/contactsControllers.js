@@ -9,8 +9,10 @@ const getAllContacts = async (req, res, next) => {
 };
 
 const getContactById = async (req, res, next) => {
+
+  const { contactId } = req.params;
   // Database query to fetch contact by ID
-  const result = await contacts.getContactById(req.params.contactId);
+  const result = await contacts.getById(contactId);
 
   if (!result) {
     return res.status(404).json({ message: "Contact not found" });

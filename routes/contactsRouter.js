@@ -4,9 +4,9 @@ const ctrl = require('../controllers/contactsControllers');
 const contactsRouter = express.Router();
 
 contactsRouter.get('/', ctrl.getAllContacts);
-contactsRouter.get('/:id', ctrl.getContactById);
+contactsRouter.get('/:contactId', ctrl.getContactById);
 contactsRouter.post('/', ctrl.createContact);
 // contactsRouter.put('/:id', ctrl.updateContact);
-contactsRouter.delete('/:id', ctrl.deleteContact);
+contactsRouter.delete('/:contactId', ctrl.deleteContact);
 
 module.exports = contactsRouter;

@@ -4,8 +4,11 @@ const contactsRouter = require("./routes/contactsRouter");
 
 const app = express();
 
-app.use("/api/contacts", contactsRouter);
+// Middleware
 app.use(morgan("dev"));
 app.use(express.json());
+
+// API routes
+app.use("/api/contacts", contactsRouter);
 
 module.exports = app;
