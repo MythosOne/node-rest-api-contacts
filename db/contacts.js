@@ -49,7 +49,7 @@ const removeContact = async (contactId) => {
 const addContact = async (body) => {
   const contacts = await readFile();
 
-  const newContact = { id: nanoid(10), ...body };
+  const newContact = { id: nanoid(40), ...body };
 
   contacts.push(newContact);
 
