@@ -1,48 +1,63 @@
-const contacts = require("../db/contacts");
+// const contacts = require("../db/contacts");
 const { HttpError, ctrlWrapper } = require("../helpers");
-const { addSchema } = require("../schema/contactsSchemas");
+const { Contact, addSchema } = require("../model/contactsModel");
 
 const getAllContacts = async (req, res, next) => {
-  // Database query to fetch all contacts
-  const result = await contacts.find();
+  try {
+    const result = await Contact.find();
 
-  res.status(200).json(result);
+    if (!result.length) {
+      return res.status(404).json({ message: "No contacts found" });
+    }
+
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
 };
 
-// const getContactById = async (req, res, next) => {
-//   const { contactId } = req.params;
-//   // Database query to fetch contact by ID
-//   const result = await contacts.getById(contactId);
+const getContactById = async (req, res, next) => {
+  try {
+    const { contactId } = req.params;
 
-//   if (!result) {
-//     throw HttpError(404, "Not found");
-//   }
+    const result = await Contact.findById(contactId);
 
-//   res.status(200).json(result);
-// };
+    if (!result) {
+      return res.status(404).json({ message: "No contacts found" });
+    }
 
-// const deleteContact = async (req, res, next) => {
-//   // Database query to delete contact
-//   const result = await contacts.removeContact(req.params.contactId);
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
 
-//   if (!result) {
-//     throw HttpError(404, "Not found");
-//   }
+const deleteContact = async (req, res, next) => {
+  try {
+    const { contactId } = req.params;
 
-//   res.status(200).json(result);
-// };
+    const result = await Contact.findOneAndDelete({ _id: contactId });
 
-// const createContact = async (req, res, next) => {
-//   const { error } = addSchema.validate(req.body);
-//   if (error) {
-//     throw HttpError(400, "Missing required field");
-//   }
-//   // Database query to create contact
-//   const result = await contacts.addContact(req.body);
-//   console.log(req.body);
+    if (!result) {
+      return res.status(404).json({ message: "No contacts found" });
+    }
 
-//   res.status(201).json(result);
-// };
+    res.status(200).json({ message: "Contact deleted" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const createContact = async (req, res, next) => {
+  const { error } = addSchema.validate(req.body);
+  if (error) {
+    throw HttpError(400, "Missing required field");
+  }
+
+  const result = await Contact.create(req.body);
+
+  res.status(201).json(result);
+};
 
 // const updateContact = async (req, res, next) => {
 //   // Database query to update contact
@@ -55,8 +70,8 @@ const getAllContacts = async (req, res, next) => {
 
 module.exports = {
   getAllContacts: ctrlWrapper(getAllContacts),
-  // getContactById: ctrlWrapper(getContactById),
-  // createContact: ctrlWrapper(createContact),
+  getContactById: ctrlWrapper(getContactById),
+  createContact: ctrlWrapper(createContact),
   // updateContact,
-  // deleteContact: ctrlWrapper(deleteContact),
+  deleteContact: ctrlWrapper(deleteContact),
 };
