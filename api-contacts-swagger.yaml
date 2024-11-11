@@ -177,7 +177,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserRegister"
+                $ref: "#/components/schemas/UserRegisterResponse"
         "400":
           description: Invalid Input
           content:
@@ -332,6 +332,20 @@ components:
         - username
         - email
         - password
+
+    UserRegisterResponse:
+      type: object
+      properties:
+        username:
+          type: string
+          description: User username
+        email:
+          type: string
+          description: User email
+          
+      required:
+        - username
+        - email
 
     UserLoginRequest:
       type: object

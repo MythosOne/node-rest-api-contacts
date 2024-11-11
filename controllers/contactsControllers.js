@@ -3,49 +3,37 @@ const { HttpError, ctrlWrapper } = require("../helpers");
 const { Contact, addSchema } = require("../model/contactsModel");
 
 const getAllContacts = async (req, res, next) => {
-  try {
-    const result = await Contact.find();
+  const result = await Contact.find();
 
-    if (!result.length) {
-      return res.status(404).json({ message: "No contacts found" });
-    }
-
-    res.status(200).json(result);
-  } catch (error) {
-    next(error);
+  if (!result.length) {
+    return res.status(404).json({ message: "No contacts found" });
   }
+
+  res.status(200).json(result);
 };
 
 const getContactById = async (req, res, next) => {
-  try {
-    const { contactId } = req.params;
+  const { contactId } = req.params;
 
-    const result = await Contact.findById(contactId);
+  const result = await Contact.findById(contactId);
 
-    if (!result) {
-      return res.status(404).json({ message: "No contacts found" });
-    }
-
-    res.status(200).json(result);
-  } catch (error) {
-    next(error);
+  if (!result) {
+    return res.status(404).json({ message: "No contacts found" });
   }
+
+  res.status(200).json(result);
 };
 
 const deleteContact = async (req, res, next) => {
-  try {
-    const { contactId } = req.params;
+  const { contactId } = req.params;
 
-    const result = await Contact.findOneAndDelete({ _id: contactId });
+  const result = await Contact.findOneAndDelete({ _id: contactId });
 
-    if (!result) {
-      return res.status(404).json({ message: "No contacts found" });
-    }
-
-    res.status(200).json({ message: "Contact deleted" });
-  } catch (error) {
-    next(error);
+  if (!result) {
+    return res.status(404).json({ message: "No contacts found" });
   }
+
+  res.status(200).json({ message: "Contact deleted" });
 };
 
 const createContact = async (req, res, next) => {
