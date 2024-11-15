@@ -6,7 +6,7 @@ const getAllContacts = async (req, res, next) => {
   const result = await Contact.find();
 
   if (!result.length) {
-    return res.status(404).json({ message: "No contacts found" });
+    throw HttpError(404, "No contacts found");
   }
 
   res.status(200).json(result);
@@ -18,7 +18,7 @@ const getContactById = async (req, res, next) => {
   const result = await Contact.findById(contactId);
 
   if (!result) {
-    return res.status(404).json({ message: "No contacts found" });
+    throw HttpError(404, "No contacts found");
   }
 
   res.status(200).json(result);
@@ -30,7 +30,7 @@ const deleteContact = async (req, res, next) => {
   const result = await Contact.findOneAndDelete({ _id: contactId });
 
   if (!result) {
-    return res.status(404).json({ message: "No contacts found" });
+    throw HttpError(404, "No contacts found");
   }
 
   res.status(200).json({ message: "Contact deleted" });
