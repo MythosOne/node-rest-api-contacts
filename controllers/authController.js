@@ -1,20 +1,9 @@
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { ctrlWrapper, HttpError } = require("../helpers");
-// const { schemas } = require("../model/userModel");
 const { User } = require("../model/userModel");
 
 const register = async (req, res, next) => {
-  // const { error } = schemas.registerSchema.validate(req.body);
-
-  // if (error) {
-  //   const message =
-  //     process.env.NODE_ENV === "production"
-  //       ? "Missing required fields"
-  //       : error.details[0].message;
-  //   throw HttpError(400, message);
-  // }
-
   const { username, email, password } = req.body;
   const existingUser = await User.findOne({ email });
 
@@ -36,16 +25,6 @@ const register = async (req, res, next) => {
 };
 
 const login = async (req, res, next) => {
-  // const { error } = schemas.loginSchema.validate(req.body);
-
-  // if (error) {
-  //   const message =
-  //     process.env.NODE_ENV === "production"
-  //       ? "Missing required field email"
-  //       : error.details[0].message;
-  //   throw HttpError(400, message);
-  // }
-
   const { email, password } = req.body;
   const user = await User.findOne({ email });
 
