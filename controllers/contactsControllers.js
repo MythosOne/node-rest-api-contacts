@@ -1,35 +1,39 @@
-const contacts = require("../db/contacts");
+// const contacts = require("../db/contacts");
 const { HttpError, ctrlWrapper } = require("../helpers");
-const { addSchema } = require("../schema/contactsSchemas");
+const { Contact, addSchema } = require("../model/contactsModel");
 
 const getAllContacts = async (req, res, next) => {
-  // Database query to fetch all contacts
-  const result = await contacts.listContacts();
+  const result = await Contact.find();
+
+  if (!result.length) {
+    throw HttpError(404, "No contacts found");
+  }
 
   res.status(200).json(result);
 };
 
 const getContactById = async (req, res, next) => {
   const { contactId } = req.params;
-  // Database query to fetch contact by ID
-  const result = await contacts.getById(contactId);
+
+  const result = await Contact.findById(contactId);
 
   if (!result) {
-    throw HttpError(404, "Not found");
+    throw HttpError(404, "No contacts found");
   }
 
   res.status(200).json(result);
 };
 
 const deleteContact = async (req, res, next) => {
-  // Database query to delete contact
-  const result = await contacts.removeContact(req.params.contactId);
+  const { contactId } = req.params;
+
+  const result = await Contact.findOneAndDelete({ _id: contactId });
 
   if (!result) {
-    throw HttpError(404, "Not found");
+    throw HttpError(404, "No contacts found");
   }
 
-  res.status(200).json(result);
+  res.status(200).json({ message: "Contact deleted" });
 };
 
 const createContact = async (req, res, next) => {
@@ -37,9 +41,8 @@ const createContact = async (req, res, next) => {
   if (error) {
     throw HttpError(400, "Missing required field");
   }
-  // Database query to create contact
-  const result = await contacts.addContact(req.body);
-  console.log(req.body);
+
+  const result = await Contact.create(req.body);
 
   res.status(201).json(result);
 };

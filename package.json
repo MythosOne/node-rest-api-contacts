@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js",
+    "start": "cross-env NODE_ENV=production node ./server.js",
+    "start:dev": "cross-env NODE_ENV=development nodemon ./server.js",
     "lint": "eslint . --ignore-path .eslintignore",
     "lint:fix": "eslint --fix **/*.js"
   },
@@ -21,6 +21,7 @@
     "mongoose": "^8.7.1"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "dotenv": "^16.4.5",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^9.1.0",
