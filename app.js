@@ -13,7 +13,7 @@ app.use(express.json());
 
 // API routes
 app.use("/api/contacts", contactsRoutes);
-app.use("/api/auth", authRoutes);
+app.use("/api/users", authRoutes);
 
 app.use((req, res) => {
   return res.status(404).json({ message: "Not found" });
