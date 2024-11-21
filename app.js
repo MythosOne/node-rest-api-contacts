@@ -7,15 +7,21 @@ const authRoutes = require("./routes/authRoutes");
 const app = express();
 
 const formatLogger = app.get("env") === "development" ? "dev" : "short";
+const allowedOrigins =
+  process.env.NODE_ENV === "production"
+    ? ["https://mythosone.github.io/"]
+    : ["http://localhost:3000"];
 
 // Middleware
 app.use(logger(formatLogger));
 app.use(express.json());
 
-app.use(cors({
-  origin: "https://mythosone.github.io",
-  methods: ["GET", "POST", /*"PUT",*/ "DELETE"],
-}));
+app.use(
+  cors({
+    origin: allowedOrigins,
+    methods: ["GET", "POST", /*"PUT",*/ "DELETE"],
+  })
+);
 
 // API routes
 app.use("/api/contacts", contactsRoutes);
