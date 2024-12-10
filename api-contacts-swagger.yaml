@@ -279,9 +279,9 @@ components:
         name:
           type: string
           description: Contact name
-        email:
-          type: string
-          description: Contact email
+        # email:
+        #   type: string
+        #   description: Contact email
         phone:
           type: string
           description: Contact phone
