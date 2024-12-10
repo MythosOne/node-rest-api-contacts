@@ -303,9 +303,9 @@ components:
         name:
           type: string
           description: Contact name
-        email:
+        phone:
           type: string
-          description: Contact email
+          description: Contact phone
         # phone:
         #   type: string
         #   description: Contact phone
