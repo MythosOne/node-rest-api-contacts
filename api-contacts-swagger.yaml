@@ -147,7 +147,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Contact"
+                $ref: "#/components/schemas/ContactDeleted"
         "404":
           description: Not Found
           content:
@@ -294,8 +294,18 @@ components:
 
       required:
         - name
-        - email
+        # - email
         - phone
+
+    ContactDeleted:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Contact ID
+        message:
+          type: string
+          example: Contact deleted
 
     ContactInput:
       type: object
@@ -312,7 +322,7 @@ components:
           
       required:
         - name
-        - email
+        # - email
         - phone
 
     UserRegister:
