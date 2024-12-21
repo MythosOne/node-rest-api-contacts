@@ -11,6 +11,7 @@ const contactSchema = new Schema(
       type: String,
       required: [true, "Set phone number for contact"],
     },
+    owner: { type: Schema.Types.ObjectId, ref: "user" },
   },
   { versionKey: false }
 );
