@@ -9,7 +9,7 @@ const app = express();
 const formatLogger = app.get("env") === "development" ? "dev" : "short";
 const allowedOrigins =
   process.env.NODE_ENV === "production"
-    ? ["https://mythosone.github.io/"]
+    ? ["https://mythosone.github.io"]
     : ["http://localhost:3000"];
 
 // Middleware
