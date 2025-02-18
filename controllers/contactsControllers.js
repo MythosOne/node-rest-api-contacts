@@ -3,14 +3,13 @@ const { HttpError, ctrlWrapper } = require("../helpers");
 const { Contact, addSchema } = require("../model/contactsModel");
 
 const getAllContacts = async (req, res, next) => {
-  const { _id: owner } = req.user;
-  const result = await Contact.find({ owner });
-
-  if (!result.length) {
-    throw HttpError(404, "No contacts found");
+  try {
+    const { _id: owner } = req.user;
+    const result = await Contact.find({ owner });
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
   }
-
-  res.status(200).json(result);
 };
 
 const getContactById = async (req, res, next) => {
