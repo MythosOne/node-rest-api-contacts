@@ -10,8 +10,6 @@ contactsRoutes.get("/:contactId", authenticate, isValidId, ctrl.getContactById);
 
 contactsRoutes.post("/", authenticate, ctrl.createContact);
 
-// contactsRoutes.put('/:id', ctrl.updateContact);
-
 contactsRoutes.delete("/:contactId", authenticate, isValidId, ctrl.deleteContact);
 
 module.exports = contactsRoutes;

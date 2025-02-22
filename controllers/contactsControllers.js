@@ -53,19 +53,9 @@ const createContact = async (req, res, next) => {
   res.status(201).json(result);
 };
 
-// const updateContact = async (req, res, next) => {
-//   // Database query to update contact
-//   const { contactId } = req.params;
-
-//   const result = await contacts.updateContact(contactId, req.body);
-
-//   res.send(result);
-// };
-
 module.exports = {
   getAllContacts: ctrlWrapper(getAllContacts),
   getContactById: ctrlWrapper(getContactById),
   createContact: ctrlWrapper(createContact),
-  // updateContact,
   deleteContact: ctrlWrapper(deleteContact),
 };
