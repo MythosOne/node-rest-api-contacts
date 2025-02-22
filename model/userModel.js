@@ -32,14 +32,26 @@ userSchema.post("save", handleMongooseError);
 
 const registerSchema = Joi.object({
   username: Joi.string().required(),
-  email: Joi.string().pattern(emailRegexp).required(),
+  email: Joi.string()
+    .pattern(emailRegexp)
+    .required()
+    .messages({
+      "string.pattern.base":
+        "Invalid email format. Please enter a valid email address",
+    }),
   password: Joi.string().required().min(10).messages({
     "string.min": "Password must be at least 10 characters",
   }),
 });
 
 const loginSchema = Joi.object({
-  email: Joi.string().pattern(emailRegexp).required(),
+  email: Joi.string()
+    .pattern(emailRegexp)
+    .required()
+    .messages({
+      "string.pattern.base":
+        "Invalid email format. Please enter a valid email address",
+    }),
   password: Joi.string().required(),
 });
 
